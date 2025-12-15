@@ -30,11 +30,10 @@ class AfishaManagerTest {
         manager.add(movie2);
         manager.add(movie3);
 
-        Movie[] all = manager.findAll();
-        assertEquals(3, all.length);
-        assertEquals(movie1, all[0]);
-        assertEquals(movie2, all[1]);
-        assertEquals(movie3, all[2]);
+        Movie[] expected = {movie1, movie2, movie3};
+        Movie[] actual = manager.findAll();
+
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -54,14 +53,10 @@ class AfishaManagerTest {
         manager.add(movie5);
         manager.add(movie6);
 
-        Movie[] last = manager.findLast();
+        Movie[] expected = {movie6, movie5, movie4, movie3, movie2};
+        Movie[] actual = manager.findLast();
 
-        assertEquals(5, last.length);
-        assertEquals(movie6, last[0]);
-        assertEquals(movie5, last[1]);
-        assertEquals(movie4, last[2]);
-        assertEquals(movie3, last[3]);
-        assertEquals(movie2, last[4]);
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -77,12 +72,10 @@ class AfishaManagerTest {
         manager.add(movie3);
         manager.add(movie4);
 
-        Movie[] last = manager.findLast();
+        Movie[] expected = {movie4, movie3, movie2};
+        Movie[] actual = manager.findLast();
 
-        assertEquals(3, last.length);
-        assertEquals(movie4, last[0]);
-        assertEquals(movie3, last[1]);
-        assertEquals(movie2, last[2]);
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -94,22 +87,21 @@ class AfishaManagerTest {
         manager.add(movie1);
         manager.add(movie2);
 
-        Movie[] last = manager.findLast();
+        Movie[] expected = {movie2, movie1};
+        Movie[] actual = manager.findLast();
 
-        assertEquals(2, last.length);
-        assertEquals(movie2, last[0]);
-        assertEquals(movie1, last[1]);
+        assertArrayEquals(expected, actual);
     }
 
     @Test
     void shouldReturnEmptyArrayWhenNoMovies() {
         AfishaManager manager = new AfishaManager();
 
-        Movie[] all = manager.findAll();
-        Movie[] last = manager.findLast();
+        Movie[] expectedAll = {};
+        Movie[] expectedLast = {};
 
-        assertEquals(0, all.length);
-        assertEquals(0, last.length);
+        assertArrayEquals(expectedAll, manager.findAll());
+        assertArrayEquals(expectedLast, manager.findLast());
     }
 
     @Test
@@ -123,11 +115,24 @@ class AfishaManagerTest {
         manager.add(movie2);
         manager.add(movie3);
 
-        Movie[] last = manager.findLast();
+        Movie[] expected = {movie3, movie2, movie1};
+        Movie[] actual = manager.findLast();
 
-        assertEquals(3, last.length);
-        assertEquals(movie3, last[0]);
-        assertEquals(movie2, last[1]);
-        assertEquals(movie1, last[2]);
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldWorkWithZeroLimit() {
+        AfishaManager manager = new AfishaManager(0);
+        Movie movie1 = new Movie(1, "Бладшот", "боевик");
+        Movie movie2 = new Movie(2, "Вперед", "мультфильм");
+
+        manager.add(movie1);
+        manager.add(movie2);
+
+        Movie[] expected = {};
+        Movie[] actual = manager.findLast();
+
+        assertArrayEquals(expected, actual);
     }
 }
